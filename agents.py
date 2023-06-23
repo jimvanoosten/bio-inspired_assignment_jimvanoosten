@@ -36,7 +36,7 @@ def save_table(qtable):
 
 def load_table():
     # try:
-    with open('hoi.txt', 'r') as f:
+    with open('SavedQtable.txt', 'r') as f:
         return eval(f.read())
 
 # except FileNotFoundError:
@@ -128,8 +128,8 @@ class QLearning:
                 action = self.get_action(state, i + 1)
                 next_state, reward, terminated, truncated, info = env.step(action)
                 score += reward
-                next_state = discretize_state(next_state)
-                self.update(state, action, next_state, reward, i, terminated, truncated)
+                next_state_temp = discretize_state(next_state)
+                self.update(state, action, next_state_temp, reward, i, terminated, truncated)
                 # env.render()
 
                 if terminated or truncated:
