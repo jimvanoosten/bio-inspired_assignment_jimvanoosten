@@ -1,8 +1,4 @@
-import gymnasium as gym
-import numpy as np
 import random
-from tensorflow import keras, math
-from keras import layers, optimizers, Sequential
 import matplotlib.pyplot as plt
 
 
@@ -30,28 +26,17 @@ def discretize_state(state):
 
 
 def save_table(qtable):
-    with open('SavedQtable.txt', 'w') as f:
+    with open('Qtable.txt', 'w') as f:
         f.write(str(qtable))
 
 
 def load_table():
-    # try:
-    with open('SavedQtable.txt', 'r') as f:
-        return eval(f.read())
-
-# except FileNotFoundError:
-#     print("Qtable file not found. Creating a new Qtable.")
-#     return Qtable()
-
-
-# def save_weights(weights):
-#     with open('Weights.txt', 'w') as f:
-#         f.write(str(weights))
-
-
-# def load_weights():
-#     with open('Weights.txt', 'r') as f:
-#         return eval(f.read())
+    try:
+        with open('Qtable.txt', 'r') as f:
+            return eval(f.read())
+    except FileNotFoundError:
+        print("Qtable file not found. Creating a new Qtable.")
+        return Qtable()
 
 
 class Qtable(dict):
@@ -94,7 +79,7 @@ class QLearning:
             if self.get_q_values(state, i) == maximum:
                 return i
 
-    def get_action(self, state, current_iteration_number):  # perhaps change into current_iteration_number
+    def get_action(self, state, current_iteration_number):
         self.set_parameter(current_iteration_number)
         if random_with_possibility(self.epsilon):
             action = random.choice(self.action)
@@ -130,7 +115,7 @@ class QLearning:
                 score += reward
                 next_state_temp = discretize_state(next_state)
                 self.update(state, action, next_state_temp, reward, i, terminated, truncated)
-                # env.render()
+                env.render()
 
                 if terminated or truncated:
                     iterations.append(i)
@@ -149,9 +134,3 @@ class QLearning:
                 print("Qtable saved as Qtable.txt")
 
         draw_chart(iterations, rewards, "QLearning")
-
-# class SarsaQLearning:
-
-# class ApproximateQLearning:
-
-# class DeepQLearning:
