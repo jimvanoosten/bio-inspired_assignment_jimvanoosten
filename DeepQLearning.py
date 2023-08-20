@@ -110,6 +110,8 @@ class DeepQLearning:
                 state = np.reshape(next_state, [1, self.state_size])
                 action = self.get_action(state, i)
                 next_state, reward, terminated, truncated, info = env.step(action)
+                next_state_temp = np.reshape(next_state, [1, self.state_size])
+                self.memorize(state, action, reward, next_state_temp, terminated or truncated)
                 score += reward
                 env.render()
 
