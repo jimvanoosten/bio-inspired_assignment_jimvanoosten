@@ -2,8 +2,8 @@ import gymnasium as gym
 from QLearning import QLearning
 from DeepQLearning import DeepQLearning
 
-# env = gym.make("LunarLander-v2")
-env = gym.make("LunarLander-v2", render_mode="human")
+env = gym.make("LunarLander-v2")
+# env = gym.make("LunarLander-v2", render_mode="human")
 
 # qlearning_agent = QLearning(5, flag=True)
 # qlearning_agent.train(env)

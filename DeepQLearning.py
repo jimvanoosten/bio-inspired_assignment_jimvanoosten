@@ -75,7 +75,7 @@ class DeepQLearning:
         model.add(layers.Dense(8, input_dim=self.state_size, activation='relu'))
         model.add(layers.Dense(16, activation='relu'))
         model.add(layers.Dense(self.action_size, activation='linear'))
-        model.compile(loss='mse', optimizer=optimizers.Adam(lr=self.alpha))
+        model.compile(loss='mse', optimizer=optimizers.Adam(learning_rate=self.alpha))
         return model
 
     def memorize(self, state, action, reward, next_state, done):
@@ -113,7 +113,7 @@ class DeepQLearning:
                 next_state_temp = np.reshape(next_state, [1, self.state_size])
                 self.memorize(state, action, reward, next_state_temp, terminated or truncated)
                 score += reward
-                env.render()
+                # env.render()
 
                 if terminated or truncated:
                     print("iteration number: ", i)
