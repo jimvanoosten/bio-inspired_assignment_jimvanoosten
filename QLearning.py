@@ -1,13 +1,16 @@
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def draw_chart(iteration, reward, name):
+def draw_chart(reward, average_rewards, name):
     figure = plt.figure()
     ax = figure.add_subplot()
-    ax.scatter(iteration, reward, c='r', marker='o')
+    # ax.scatter(iteration, reward, c='b', marker='o')
+    plt.plot(reward)
     ax.set_xlabel('Iteration')
     ax.set_ylabel('Reward')
+    plt.plot(average_rewards, 'r')
     plt.show()
     ax.figure.savefig(f'{name}.png')
 
@@ -103,7 +106,7 @@ class QLearning:
             self.epsilon = (self.n - current_iteration_number) / self.n
 
     def train(self, env):
-        iterations, rewards = list(), list()
+        iterations, rewards, average_rewards = list(), list(), list()
         next_state, info = env.reset(seed=42)
         score = 0
         for i in range(self.n):
@@ -120,6 +123,8 @@ class QLearning:
                 if terminated or truncated:
                     iterations.append(i)
                     rewards.append(score)
+                    average_reward = np.mean(rewards[-100:])
+                    average_rewards.append(average_reward)
                     print("iteration number: ", i)
                     print(score)
                     # if score > 200:
@@ -133,4 +138,4 @@ class QLearning:
                 save_table(self.QValues)
                 print("Qtable saved as Qtable.txt")
 
-        draw_chart(iterations, rewards, "QLearning")
+        draw_chart(rewards, average_rewards, "Q-learning")
