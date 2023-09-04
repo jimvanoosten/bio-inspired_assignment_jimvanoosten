@@ -48,8 +48,8 @@ def draw_chart(rewards, average_rewards, name, lr):
     plt.title(f'{name} (Learning Rate: {lr})')
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.xticks(np.arange(len(rewards), step=1))
-    plt.savefig(f'{name}.png')
+    plt.xticks(np.arange(len(rewards), step=1000))
+    plt.savefig(f'{name}_{lr}.png')
     plt.show()
 
 

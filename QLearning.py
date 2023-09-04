@@ -3,16 +3,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def draw_chart(reward, average_rewards, name):
-    figure = plt.figure()
-    ax = figure.add_subplot()
-    # ax.scatter(iteration, reward, c='b', marker='o')
-    plt.plot(reward)
-    ax.set_xlabel('Iteration')
-    ax.set_ylabel('Reward')
-    plt.plot(average_rewards, 'r')
+def draw_chart(rewards, average_rewards, name, lr):
+    plt.figure(figsize=(10, 6))
+    plt.plot(rewards, label='Individual Episode Rewards', color='blue', alpha=0.5)
+    plt.plot(average_rewards, label='Average Rewards (100 Episodes)', color='red')
+    plt.xlabel('Iteration')
+    plt.ylabel('Reward')
+    plt.title(f'{name} (Learning Rate: {lr})')
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.xticks(np.arange(len(rewards), step=1000))
+    plt.savefig(f'{name}_{lr}.png')
     plt.show()
-    ax.figure.savefig(f'{name}.png')
 
 
 def random_with_possibility(epsilon):
@@ -127,6 +129,7 @@ class QLearning:
                     average_rewards.append(average_reward)
                     print("iteration number: ", i)
                     print(score)
+                    print(average_reward)
                     # if score > 200:
                     #     print(f"You have found a solution after {i} iterations!")
                     #     return  # stop the training process if score > 200 is reached
@@ -138,4 +141,4 @@ class QLearning:
                 save_table(self.QValues)
                 print("Qtable saved as Qtable.txt")
 
-        draw_chart(rewards, average_rewards, "Q-learning")
+        draw_chart(rewards, average_rewards, "Q-learning", self.alpha)
